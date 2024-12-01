@@ -1,5 +1,5 @@
-[32m
-[*] Processing ./data/cm_terrestre.csv[0m
+
+[*] Processing ./data/cm_terrestre.csv
 
 Results:
 4.9479462e-5 +- 2.6750954e-6 T
@@ -36,8 +36,8 @@ Final Measure:
 
 Margins of error for confidence level of 95.0%:
 tc = 0.12658463: (5.0933395e-5, 5.1040883e-5)
-[32m
-[*] Processing ./data/cm_ortogonale.csv[0m
+
+[*] Processing ./data/cm_ortogonale.csv
 
 Results:
 1.8243181e11 +- 3.2016774e7 C/Kg
@@ -60,8 +60,8 @@ Final Measure:
 Statistical Significance at 1.0% for expected value of 1.75882e11:
 t0:  P(-inf <= -2.2032833) = 2.3927013522976273%
 t_c: P(-inf <= -2.680998) = 0.9999998265652599%
-[32m
-[*] Processing ./data/cm_parallelo.csv[0m
+
+[*] Processing ./data/cm_parallelo.csv
 
 Results:
 1.8657436e11 +- 2.9441426e7 C/Kg
@@ -84,8 +84,8 @@ Final Measure:
 Statistical Significance at 1.0% for expected value of 1.75882e11:
 t0:  P(-inf <= -2.2880583) = 2.05377612121592%
 t_c: P(-inf <= -2.680998) = 0.9999998265652599%
-[32m
-[*] Processing ./data/cm_antiparallelo.csv[0m
+
+[*] Processing ./data/cm_antiparallelo.csv
 
 Results:
 2.161807e11 +- 3.4307876e7 C/Kg
@@ -108,18 +108,22 @@ Final Measure:
 Statistical Significance at 1.0% for expected value of 1.75882e11:
 t0:  P(-inf <= -20.773792) = 4.47515553059969e-9%
 t_c: P(-inf <= -2.680998) = 0.9999998265652599%
-[31m
-Linear regressions[0m
+
+[*] testing ./plotting/ortho_reg.csv
 
 Linear regression for ./plotting/ortho_reg.csv
 e/m = 1.4689255e11 +- 1.4760982e10
 Statistical Significance at 5.0% for expected value of 1.75882e11:
 t0:  P(-inf <= -1.9639236) = 3.6564926741970947%
 
+[*] testing ./plotting/parallel_reg.csv
+
 Linear regression for ./plotting/parallel_reg.csv
 e/m = 1.7457132e11 +- 2.4682693e10
 Statistical Significance at 5.0% for expected value of 1.75882e11:
 t0:  P(-inf <= -5.3100806e-2) = 47.92626757802601%
+
+[*] testing ./plotting/antiparallel_reg.csv
 
 Linear regression for ./plotting/antiparallel_reg.csv
 e/m = 1.8161018e11 +- 2.209824e10

@@ -153,6 +153,8 @@ performTest filename regData ttest = do
       best = 1 / tmpBest
       err = tmpErr / (tmpBest**2)
 
+  putStrLn $ colorRed ++ "\n[*] testing " ++ filename ++ colorDefault
+
   writeFile filename $ linRegPointsToString regData
   putStrLn $ "\nLinear regression for " ++ filename
   putStrLn $ "e/m = " ++ (show best) ++ " +- " ++ (show err)
@@ -186,8 +188,6 @@ main = do
   (_,_,orthogonalData)   <- processFile "./data/cm_ortogonale.csv"    (simpleParser) (eom      0.0)       (eomError      0.0        0.0) (stdAverage)      "C/Kg" (1) (SignificanceTest 1.758820e11 0.01)
   (_,_,parallelData)     <- processFile "./data/cm_parallelo.csv"     (simpleParser) (eom    field)       (eomError    field fieldError) (stdAverage)      "C/Kg" (1) (SignificanceTest 1.758820e11 0.01)
   (_,_,antiParallelData) <- processFile "./data/cm_antiparallelo.csv" (simpleParser) (eom (-field))       (eomError (-field) fieldError) (stdAverage)      "C/Kg" (1) (SignificanceTest 1.758820e11 0.01)
-
-  putStrLn $ colorRed ++ "\nLinear regressions" ++ colorDefault
 
   performTest "./plotting/ortho_reg.csv"        (eomRegressionPoints      0.0        0.0   orthogonalData) (SignificanceTest 1.758820e11 0.05)
   performTest "./plotting/parallel_reg.csv"     (eomRegressionPoints    field fieldError     parallelData) (SignificanceTest 1.758820e11 0.05)
