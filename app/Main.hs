@@ -111,8 +111,10 @@ data LinReg = LinReg { slope :: Double
                      , chi2 :: Double
                      , chi2r :: Double } deriving (Show)
 
-linReg :: [(Float,Float,Float,Float)] -> LinReg
-linReg regData =
+data LinRegType = WithIntercept | WithoutIntercept
+
+linReg :: LinRegType -> [(Float,Float,Float,Float)] -> LinReg
+linReg WithIntercept regData =
   LinReg { slope = m
          , intercept = q
          , slopeError = em
@@ -135,6 +137,23 @@ linReg regData =
         q = (1/d) * (sx2*sy - sx*sxy)
         em = sqrt $ (1/d) * sw
         eq = sqrt $ (1/d) * sx2
+linReg WithoutIntercept regData =
+  LinReg { slope = m
+         , intercept = 0.0
+         , slopeError = em
+         , interceptError = 0.0
+         , chi2 = 0.0
+         , chi2r = 0.0
+         }
+  where (xs,ys,exs,eys) = foldl (\(accA,accB,accC,accD) (a,b,c,d) ->
+            (accA ++ [realToFrac a], accB ++ [realToFrac b], accC ++ [realToFrac c], accD ++ [realToFrac d])
+          ) ([],[],[],[]) regData
+        -- testM = ((last ys) - (head ys)) / ((last xs) - (head xs))
+        sx2 = sum $ map (**2) xs
+        sxy = sum $ zipWith (*) xs ys
+        m = sxy / sx2
+        ey = sqrt $ (sum $ map (\(x,y) -> (y - m*x)**2) $ zip xs ys) / (fromIntegral (length xs) - 1)
+        em = ey / (sqrt sx2)
 
 linRegPointsToString :: [(Float,Float,Float,Float)] -> String
 linRegPointsToString = foldl (\acc (a,b,c,d) -> acc ++ (show a) ++ " " ++ (show b) ++ " " ++ (show c) ++ " " ++ (show d) ++ "\n") ""
@@ -143,11 +162,12 @@ linRegPointsToString = foldl (\acc (a,b,c,d) -> acc ++ (show a) ++ " " ++ (show 
 
 performTest :: String
             -> [(Float,Float,Float,Float)]
+            -> LinRegType
             -> TTest
             -> IO ()
-performTest filename regData ttest = do
+performTest filename regData ty ttest = do
   let degOfFreedom = (length regData) - 1
-      regResults = linReg regData
+      regResults = linReg ty regData
       tmpBest = realToFrac $ slope regResults
       tmpErr = realToFrac $ slopeError regResults
       best = 1 / tmpBest
@@ -175,6 +195,8 @@ performTest filename regData ttest = do
       putStrLn $ "tc = " ++ (show tc) ++ ": (" ++ (show lowerBound) ++ ", " ++ (show upperBound) ++ ")"
     NoTest -> do putStrLn "\nNo test to see here..."
 
+  return ()
+
 
 
 -- ..:: Entry Point ::..
@@ -189,30 +211,8 @@ main = do
   (_,_,parallelData)     <- processFile "./data/cm_parallelo.csv"     (simpleParser) (eom    field)       (eomError    field fieldError) (stdAverage)      "C/Kg" (1) (SignificanceTest 1.758820e11 0.01)
   (_,_,antiParallelData) <- processFile "./data/cm_antiparallelo.csv" (simpleParser) (eom (-field))       (eomError (-field) fieldError) (stdAverage)      "C/Kg" (1) (SignificanceTest 1.758820e11 0.01)
 
-  performTest "./plotting/ortho_reg.csv"        (eomRegressionPoints      0.0        0.0   orthogonalData) (SignificanceTest 1.758820e11 0.05)
-  performTest "./plotting/parallel_reg.csv"     (eomRegressionPoints    field fieldError     parallelData) (SignificanceTest 1.758820e11 0.05)
-  performTest "./plotting/antiparallel_reg.csv" (eomRegressionPoints (-field) fieldError antiParallelData) (SignificanceTest 1.758820e11 0.05)
-
-  -- let orthoRegPoints = eomRegressionPoints field fieldError orthogonalData
-  --     parallelRegPoints = eomRegressionPoints field fieldError parallelData
-  --     antiParallelRegPoints = eomRegressionPoints field fieldError antiParallelData
-  --     orthoRegResults = linReg orthoRegPoints
-  --     parallelRegResults = linReg parallelRegPoints
-  --     antiParallelRegResults = linReg antiParallelRegPoints
-
-  -- putStrLn $ colorRed ++ "\nLinear regression for 'cm_ortogonale.csv'" ++ colorDefault
-  -- putStrLn $ show orthoRegResults
-  -- putStrLn $ "e/m = " ++ (show $ 1 / (slope orthoRegResults)) ++ " +- " ++ (show $ (slopeError orthoRegResults)/(slope orthoRegResults)**2)
-  -- writeFile "./ortho_reg.csv" $ linRegPointsToString orthoRegPoints
-
-  -- putStrLn $ colorRed ++ "\nLinear regression for 'cm_parallelo.csv'" ++ colorDefault
-  -- putStrLn $ show parallelRegResults
-  -- putStrLn $ "e/m = " ++ (show $ 1 / (slope parallelRegResults)) ++ " +- " ++ (show $ (slopeError parallelRegResults)/(slope parallelRegResults)**2)
-  -- writeFile "./parallel_reg.csv" $ linRegPointsToString parallelRegPoints
-
-  -- putStrLn $ colorRed ++ "\nLinear regression for 'cm_antiparallelo.csv'" ++ colorDefault
-  -- putStrLn $ show antiParallelRegResults
-  -- putStrLn $ "e/m = " ++ (show $ 1 / (slope antiParallelRegResults)) ++ " +- " ++ (show $ (slopeError antiParallelRegResults)/(slope antiParallelRegResults)**2)
-  -- writeFile "./antiparallel_reg.csv" $ linRegPointsToString antiParallelRegPoints
+  performTest "./plotting/ortho_reg.csv"        (eomRegressionPoints      0.0        0.0   orthogonalData) (WithoutIntercept) (SignificanceTest 1.758820e11 0.05)
+  performTest "./plotting/parallel_reg.csv"     (eomRegressionPoints    field fieldError     parallelData) (WithoutIntercept) (SignificanceTest 1.758820e11 0.05)
+  performTest "./plotting/antiparallel_reg.csv" (eomRegressionPoints (-field) fieldError antiParallelData) (WithoutIntercept) (SignificanceTest 1.758820e11 0.05)
 
   return ()
