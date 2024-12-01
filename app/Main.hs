@@ -153,6 +153,7 @@ performTest filename regData ttest = do
       best = 1 / tmpBest
       err = tmpErr / (tmpBest**2)
 
+  writeFile filename $ linRegPointsToString regData
   putStrLn $ "\nLinear regression for " ++ filename
   putStrLn $ "e/m = " ++ (show best) ++ " +- " ++ (show err)
 
@@ -172,8 +173,6 @@ performTest filename regData ttest = do
       putStrLn $ "tc = " ++ (show tc) ++ ": (" ++ (show lowerBound) ++ ", " ++ (show upperBound) ++ ")"
     NoTest -> do putStrLn "\nNo test to see here..."
 
-  writeFile filename $ linRegPointsToString regData
-
 
 
 -- ..:: Entry Point ::..
@@ -188,18 +187,18 @@ main = do
   (_,_,parallelData)     <- processFile "./data/cm_parallelo.csv"     (simpleParser) (eom    field)       (eomError    field fieldError) (stdAverage)      "C/Kg" (1) (SignificanceTest 1.758820e11 0.01)
   (_,_,antiParallelData) <- processFile "./data/cm_antiparallelo.csv" (simpleParser) (eom (-field))       (eomError (-field) fieldError) (stdAverage)      "C/Kg" (1) (SignificanceTest 1.758820e11 0.01)
 
-  let orthoRegPoints = eomRegressionPoints field fieldError orthogonalData
-      parallelRegPoints = eomRegressionPoints field fieldError parallelData
-      antiParallelRegPoints = eomRegressionPoints field fieldError antiParallelData
-      orthoRegResults = linReg orthoRegPoints
-      parallelRegResults = linReg parallelRegPoints
-      antiParallelRegResults = linReg antiParallelRegPoints
-
   putStrLn $ colorRed ++ "\nLinear regressions" ++ colorDefault
 
-  performTest "./plotting/ortho_reg.csv"        (eomRegressionPoints field fieldError   orthogonalData) (SignificanceTest 1.758820e11 0.01)
-  performTest "./plotting/parallel_reg.csv"     (eomRegressionPoints field fieldError     parallelData) (SignificanceTest 1.758820e11 0.01)
-  performTest "./plotting/antiparallel_reg.csv" (eomRegressionPoints field fieldError antiParallelData) (SignificanceTest 1.758820e11 0.01)
+  performTest "./plotting/ortho_reg.csv"        (eomRegressionPoints      0.0        0.0   orthogonalData) (SignificanceTest 1.758820e11 0.05)
+  performTest "./plotting/parallel_reg.csv"     (eomRegressionPoints    field fieldError     parallelData) (SignificanceTest 1.758820e11 0.05)
+  performTest "./plotting/antiparallel_reg.csv" (eomRegressionPoints (-field) fieldError antiParallelData) (SignificanceTest 1.758820e11 0.05)
+
+  -- let orthoRegPoints = eomRegressionPoints field fieldError orthogonalData
+  --     parallelRegPoints = eomRegressionPoints field fieldError parallelData
+  --     antiParallelRegPoints = eomRegressionPoints field fieldError antiParallelData
+  --     orthoRegResults = linReg orthoRegPoints
+  --     parallelRegResults = linReg parallelRegPoints
+  --     antiParallelRegResults = linReg antiParallelRegPoints
 
   -- putStrLn $ colorRed ++ "\nLinear regression for 'cm_ortogonale.csv'" ++ colorDefault
   -- putStrLn $ show orthoRegResults
