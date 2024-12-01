@@ -104,12 +104,12 @@ processFile path parseContents processData calcErrors bestEstimate units scaleFa
     return (avg, err, rawData))
 
 
-data LinReg = LinReg { slope :: Float
-                     , intercept :: Float
-                     , slopeError :: Float
-                     , interceptError :: Float
-                     , chi2 :: Float
-                     , chi2r :: Float } deriving (Show)
+data LinReg = LinReg { slope :: Double
+                     , intercept :: Double
+                     , slopeError :: Double
+                     , interceptError :: Double
+                     , chi2 :: Double
+                     , chi2r :: Double } deriving (Show)
 
 linReg :: [(Float,Float,Float,Float)] -> LinReg
 linReg regData =
@@ -118,9 +118,10 @@ linReg regData =
          , slopeError = em
          , interceptError = eq
          , chi2 = 0.0
-         , chi2r = 0.0 }
+         , chi2r = 0.0
+         }
   where (xs,ys,exs,eys) = foldl (\(accA,accB,accC,accD) (a,b,c,d) ->
-            (accA ++ [a], accB ++ [b], accC ++ [c], accD ++ [d])
+            (accA ++ [realToFrac a], accB ++ [realToFrac b], accC ++ [realToFrac c], accD ++ [realToFrac d])
           ) ([],[],[],[]) regData
         testM = ((last ys) - (head ys)) / ((last xs) - (head xs))
         ws = map (\(ex,ey) -> 1 / ((testM*ex)**2 + ey**2)) $ zip exs eys
@@ -140,6 +141,41 @@ linRegPointsToString = foldl (\acc (a,b,c,d) -> acc ++ (show a) ++ " " ++ (show 
 
 
 
+performTest :: String
+            -> [(Float,Float,Float,Float)]
+            -> TTest
+            -> IO ()
+performTest filename regData ttest = do
+  let degOfFreedom = (length regData) - 1
+      regResults = linReg regData
+      tmpBest = realToFrac $ slope regResults
+      tmpErr = realToFrac $ slopeError regResults
+      best = 1 / tmpBest
+      err = tmpErr / (tmpBest**2)
+
+  putStrLn $ "\nLinear regression for " ++ filename
+  putStrLn $ "e/m = " ++ (show best) ++ " +- " ++ (show err)
+
+  case ttest of
+    SignificanceTest expectedValue significance -> do
+      let t0 = (abs $ best - expectedValue) / err
+          tc = singleTailCriticalTValue significance degOfFreedom
+          p0 = cumulative (studentT $ fromIntegral degOfFreedom) (realToFrac $ -t0)
+          pc = cumulative (studentT $ fromIntegral degOfFreedom) (realToFrac $ -tc)
+      putStrLn $ "Statistical Significance at " ++ (show $ 100 * significance) ++ "% for expected value of " ++ (show expectedValue) ++ ":"
+      putStrLn $ "t0:  P(-inf <= -" ++ (show t0) ++ ") = " ++ (show $ 100 * p0) ++ "%"
+    ConfidenceInterval confidence -> do
+      let tc = doubleTailCriticalTValue confidence degOfFreedom
+          lowerBound = best - tc * err
+          upperBound = best + tc * err
+      putStrLn $ "Margins of error for confidence level of " ++ (show $ 100 * confidence) ++ "%:"
+      putStrLn $ "tc = " ++ (show tc) ++ ": (" ++ (show lowerBound) ++ ", " ++ (show upperBound) ++ ")"
+    NoTest -> do putStrLn "\nNo test to see here..."
+
+  writeFile filename $ linRegPointsToString regData
+
+
+
 -- ..:: Entry Point ::..
 
 
@@ -147,10 +183,10 @@ linRegPointsToString = foldl (\acc (a,b,c,d) -> acc ++ (show a) ++ " " ++ (show 
 
 main :: IO ()
 main = do
-  (field,fieldError,_)   <- processFile "./data/cm_terrestre.csv"     (simpleParser) (earthMagneticField) (earthMagneticFieldError)   (weightedAverage) "T"    (1) (NoTest)
-  (_,_,orthogonalData)   <- processFile "./data/cm_ortogonale.csv"    (simpleParser) (eom      0.0)       (eomError          0.0 0.0) (stdAverage) "C/Kg" (1) (NoTest)
-  (_,_,parallelData)     <- processFile "./data/cm_parallelo.csv"     (simpleParser) (eom    field)       (eomError field fieldError) (stdAverage) "C/Kg" (1) (NoTest)
-  (_,_,antiParallelData) <- processFile "./data/cm_antiparallelo.csv" (simpleParser) (eom (-field))       (eomError field fieldError) (stdAverage) "C/Kg" (1) (NoTest)
+  (field,fieldError,_)   <- processFile "./data/cm_terrestre.csv"     (simpleParser) (earthMagneticField) (earthMagneticFieldError)      (weightedAverage) "T"    (1) (ConfidenceInterval 0.95)
+  (_,_,orthogonalData)   <- processFile "./data/cm_ortogonale.csv"    (simpleParser) (eom      0.0)       (eomError      0.0        0.0) (stdAverage)      "C/Kg" (1) (SignificanceTest 1.758820e11 0.01)
+  (_,_,parallelData)     <- processFile "./data/cm_parallelo.csv"     (simpleParser) (eom    field)       (eomError    field fieldError) (stdAverage)      "C/Kg" (1) (SignificanceTest 1.758820e11 0.01)
+  (_,_,antiParallelData) <- processFile "./data/cm_antiparallelo.csv" (simpleParser) (eom (-field))       (eomError (-field) fieldError) (stdAverage)      "C/Kg" (1) (SignificanceTest 1.758820e11 0.01)
 
   let orthoRegPoints = eomRegressionPoints field fieldError orthogonalData
       parallelRegPoints = eomRegressionPoints field fieldError parallelData
@@ -159,19 +195,25 @@ main = do
       parallelRegResults = linReg parallelRegPoints
       antiParallelRegResults = linReg antiParallelRegPoints
 
-  putStrLn $ colorRed ++ "\nLinear regression for 'cm_ortogonale.csv'" ++ colorDefault
-  putStrLn $ show orthoRegResults
-  putStrLn $ "e/m = " ++ (show $ 1 / (slope orthoRegResults))
-  writeFile "./ortho_reg.csv" $ linRegPointsToString orthoRegPoints
+  putStrLn $ colorRed ++ "\nLinear regressions" ++ colorDefault
 
-  putStrLn $ colorRed ++ "\nLinear regression for 'cm_parallelo.csv'" ++ colorDefault
-  putStrLn $ show parallelRegResults
-  putStrLn $ "e/m = " ++ (show $ 1 / (slope parallelRegResults))
-  writeFile "./parallel_reg.csv" $ linRegPointsToString parallelRegPoints
+  performTest "./plotting/ortho_reg.csv"        (eomRegressionPoints field fieldError   orthogonalData) (SignificanceTest 1.758820e11 0.01)
+  performTest "./plotting/parallel_reg.csv"     (eomRegressionPoints field fieldError     parallelData) (SignificanceTest 1.758820e11 0.01)
+  performTest "./plotting/antiparallel_reg.csv" (eomRegressionPoints field fieldError antiParallelData) (SignificanceTest 1.758820e11 0.01)
 
-  putStrLn $ colorRed ++ "\nLinear regression for 'cm_antiparallelo.csv'" ++ colorDefault
-  putStrLn $ show antiParallelRegResults
-  putStrLn $ "e/m = " ++ (show $ 1 / (slope antiParallelRegResults))
-  writeFile "./antiparallel_reg.csv" $ linRegPointsToString antiParallelRegPoints
+  -- putStrLn $ colorRed ++ "\nLinear regression for 'cm_ortogonale.csv'" ++ colorDefault
+  -- putStrLn $ show orthoRegResults
+  -- putStrLn $ "e/m = " ++ (show $ 1 / (slope orthoRegResults)) ++ " +- " ++ (show $ (slopeError orthoRegResults)/(slope orthoRegResults)**2)
+  -- writeFile "./ortho_reg.csv" $ linRegPointsToString orthoRegPoints
+
+  -- putStrLn $ colorRed ++ "\nLinear regression for 'cm_parallelo.csv'" ++ colorDefault
+  -- putStrLn $ show parallelRegResults
+  -- putStrLn $ "e/m = " ++ (show $ 1 / (slope parallelRegResults)) ++ " +- " ++ (show $ (slopeError parallelRegResults)/(slope parallelRegResults)**2)
+  -- writeFile "./parallel_reg.csv" $ linRegPointsToString parallelRegPoints
+
+  -- putStrLn $ colorRed ++ "\nLinear regression for 'cm_antiparallelo.csv'" ++ colorDefault
+  -- putStrLn $ show antiParallelRegResults
+  -- putStrLn $ "e/m = " ++ (show $ 1 / (slope antiParallelRegResults)) ++ " +- " ++ (show $ (slopeError antiParallelRegResults)/(slope antiParallelRegResults)**2)
+  -- writeFile "./antiparallel_reg.csv" $ linRegPointsToString antiParallelRegPoints
 
   return ()

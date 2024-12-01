@@ -20,7 +20,7 @@ earthMagneticField = map op
 earthMagneticFieldError :: [[Float]] -> [Float]
 earthMagneticFieldError = map op
   where op (deg:i:br:bz:[]) = 10**(-7) * (sqrt $ t1**2 + t2**2)
-          where t1 = (i/i0) * (bz / ((sin theta)**2)) * angleError -- angle term
+          where t1 = (i/i0) * (bz / ((sin theta)**2)) * (degToRad angleError) -- angle term
                 t2 = compassCurrentError * (bz * (1 / (tan theta)) + br) / i0 -- current term
                 theta = degToRad deg
         op _ = 0
@@ -49,9 +49,9 @@ eomError earthField earthFieldError = map op
 eomRegressionPoints :: Float -> Float -> [[Float]] -> [(Float,Float,Float,Float)]
 eomRegressionPoints earthField earthFieldError = map op
   where op (v:_:r:i:corr:[]) = ( 2 * v
-                               , b**2 * coilsRadius**2
+                               , b**2 * r**2
                                , 2 * tensionError
-                               , 2 * b**2 * coilsRadius * coilsRadiusError)
+                               , 2 * b**2 * r * radiusError + 2 * r**2 * b * bErr)
           where b = corr * constant * i / coilsRadius + earthField
                 bErr = sqrt $ earthFieldError**2 + (coilsRadiusError*constant*i/coilsRadius**2)**2
         op _ = (0,0,0,0)
