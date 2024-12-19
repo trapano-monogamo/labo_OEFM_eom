@@ -18,6 +18,7 @@ mu0 = 1.25663706143592E-06 :: Float
 coilsNumber = 130 :: Int
 coilsRadius = 0.15504 :: Float -- m
 coilsRadiusError = 3.564519602975975e-4 :: Float -- m
+-- coilsRadiusError = 0.003 :: Float
 needleRadius = 0.05 :: Float -- m
 
 tensionError = 0.1 :: Float -- V

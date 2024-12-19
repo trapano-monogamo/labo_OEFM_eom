@@ -40,92 +40,92 @@ tc = 0.12658463: (5.0933395e-5, 5.1040883e-5)
 [*] Processing ./data/cm_ortogonale.csv
 
 Results:
-1.8243181e11 +- 3.2016774e7 C/Kg
-1.7018348e11 +- 2.9662974e7 C/Kg
-1.8342466e11 +- 3.0155012e7 C/Kg
-1.8608973e11 +- 3.0648986e7 C/Kg
-1.8813934e11 +- 3.160741e7 C/Kg
-1.9837708e11 +- 3.5886416e7 C/Kg
-1.9287899e11 +- 2.760098e7 C/Kg
-1.9081608e11 +- 3.137016e7 C/Kg
-1.8273521e11 +- 2.9438642e7 C/Kg
-1.7037317e11 +- 2.616931e7 C/Kg
-1.6892302e11 +- 2.589591e7 C/Kg
-1.7614976e11 +- 2.6739534e7 C/Kg
-1.7201322e11 +- 2.6576042e7 C/Kg
+1.8243181e11 +- 1.879733e10 C/Kg
+1.7018348e11 +- 1.7653668e10 C/Kg
+1.8342466e11 +- 2.0163883e10 C/Kg
+1.8608973e11 +- 2.0420624e10 C/Kg
+1.8813934e11 +- 2.0245072e10 C/Kg
+1.9837708e11 +- 1.9842396e10 C/Kg
+1.9287899e11 +- 2.4335018e10 C/Kg
+1.9081608e11 +- 2.0975e10 C/Kg
+1.8273521e11 +- 2.0495055e10 C/Kg
+1.7037317e11 +- 2.003422e10 C/Kg
+1.6892302e11 +- 1.9901903e10 C/Kg
+1.7614976e11 +- 2.0956733e10 C/Kg
+1.7201322e11 +- 2.0109287e10 C/Kg
 
 Final Measure:
-1.8173349e11 +- 2.6558075e9 C/Kg
+1.8116683e11 +- 5.591526e9 C/Kg
 
 Statistical Significance at 1.0% for expected value of 1.75882e11:
-t0:  P(-inf <= -2.2032833) = 2.3927013522976273%
+t0:  P(-inf <= -0.94515157) = 18.161212262741756%
 t_c: P(-inf <= -2.680998) = 0.9999998265652599%
 
 [*] Processing ./data/cm_parallelo.csv
 
 Results:
-1.8657436e11 +- 2.9441426e7 C/Kg
-1.8355003e11 +- 2.868887e7 C/Kg
-1.8103278e11 +- 2.829542e7 C/Kg
-1.722784e11 +- 2.615186e7 C/Kg
-1.791926e11 +- 2.6610098e7 C/Kg
-1.7470666e11 +- 2.610117e7 C/Kg
-1.8959334e11 +- 3.0714118e7 C/Kg
-1.8605043e11 +- 2.8744796e7 C/Kg
-1.7920644e11 +- 2.8816404e7 C/Kg
-1.7267147e11 +- 2.7143954e7 C/Kg
-1.7960082e11 +- 2.8933684e7 C/Kg
-1.7065884e11 +- 2.6315592e7 C/Kg
-1.7978381e11 +- 2.7668732e7 C/Kg
+1.8657436e11 +- 2.1354605e10 C/Kg
+1.8355003e11 +- 2.1209088e10 C/Kg
+1.8103278e11 +- 2.0918483e10 C/Kg
+1.722784e11 +- 2.0492855e10 C/Kg
+1.791926e11 +- 2.1786333e10 C/Kg
+1.7470666e11 +- 2.1114067e10 C/Kg
+1.8959334e11 +- 2.1145188e10 C/Kg
+1.8605043e11 +- 2.1749766e10 C/Kg
+1.7920644e11 +- 2.0131994e10 C/Kg
+1.7267147e11 +- 1.983896e10 C/Kg
+1.7960082e11 +- 2.0140048e10 C/Kg
+1.7065884e11 +- 1.9986751e10 C/Kg
+1.7978381e11 +- 2.1096493e10 C/Kg
 
 Final Measure:
-1.796077e11 +- 1.6283261e9 C/Kg
+1.7938419e11 +- 5.772875e9 C/Kg
 
 Statistical Significance at 1.0% for expected value of 1.75882e11:
-t0:  P(-inf <= -2.2880583) = 2.05377612121592%
+t0:  P(-inf <= -0.6066639) = 27.76890300441882%
 t_c: P(-inf <= -2.680998) = 0.9999998265652599%
 
 [*] Processing ./data/cm_antiparallelo.csv
 
 Results:
-2.161807e11 +- 3.4307876e7 C/Kg
-2.1368688e11 +- 3.3078722e7 C/Kg
-2.1730692e11 +- 3.403026e7 C/Kg
-2.0188604e11 +- 3.3190066e7 C/Kg
-2.1056579e11 +- 3.335361e7 C/Kg
-2.1307567e11 +- 3.253665e7 C/Kg
-2.1101942e11 +- 3.184283e7 C/Kg
-2.066926e11 +- 3.0631846e7 C/Kg
-2.0359489e11 +- 3.1150008e7 C/Kg
-2.0308987e11 +- 3.1255532e7 C/Kg
-2.220315e11 +- 3.6168932e7 C/Kg
-2.1647527e11 +- 3.2990828e7 C/Kg
-2.096967e11 +- 3.3970868e7 C/Kg
+2.161807e11 +- 2.4627192e10 C/Kg
+2.1368688e11 +- 2.4951015e10 C/Kg
+2.1730692e11 +- 2.5087711e10 C/Kg
+2.0188604e11 +- 2.2207578e10 C/Kg
+2.1056579e11 +- 2.4028955e10 C/Kg
+2.1307567e11 +- 2.5215422e10 C/Kg
+2.1101942e11 +- 2.526548e10 C/Kg
+2.066926e11 +- 2.5193163e10 C/Kg
+2.0359489e11 +- 2.4044327e10 C/Kg
+2.0308987e11 +- 2.3846281e10 C/Kg
+2.220315e11 +- 2.4651786e10 C/Kg
+2.1647527e11 +- 2.5669702e10 C/Kg
+2.096967e11 +- 2.3403803e10 C/Kg
 
 Final Measure:
-2.111771e11 +- 1.6990205e9 C/Kg
+2.1088613e11 +- 6.773551e9 C/Kg
 
 Statistical Significance at 1.0% for expected value of 1.75882e11:
-t0:  P(-inf <= -20.773792) = 4.47515553059969e-9%
+t0:  P(-inf <= -5.1677675) = 1.1700652403147887e-2%
 t_c: P(-inf <= -2.680998) = 0.9999998265652599%
 
-[*] testing ./plotting/ortho_reg.csv
+[*] testing ./plotting/ortho_reg_weighted_avg.csv
 
-Linear regression for ./plotting/ortho_reg.csv
+Linear regression for ./plotting/ortho_reg_weighted_avg.csv
 e/m = 1.4689255e11 +- 1.4760982e10
 Statistical Significance at 5.0% for expected value of 1.75882e11:
 t0:  P(-inf <= -1.9639236) = 3.6564926741970947%
 
-[*] testing ./plotting/parallel_reg.csv
+[*] testing ./plotting/parallel_reg_weighted_avg.csv
 
-Linear regression for ./plotting/parallel_reg.csv
+Linear regression for ./plotting/parallel_reg_weighted_avg.csv
 e/m = 1.7457132e11 +- 2.4682693e10
 Statistical Significance at 5.0% for expected value of 1.75882e11:
 t0:  P(-inf <= -5.3100806e-2) = 47.92626757802601%
 
-[*] testing ./plotting/antiparallel_reg.csv
+[*] testing ./plotting/antiparallel_reg_weighted_avg.csv
 
-Linear regression for ./plotting/antiparallel_reg.csv
+Linear regression for ./plotting/antiparallel_reg_weighted_avg.csv
 e/m = 1.8161018e11 +- 2.209824e10
 Statistical Significance at 5.0% for expected value of 1.75882e11:
 t0:  P(-inf <= -0.2592148) = 39.993140455996134%

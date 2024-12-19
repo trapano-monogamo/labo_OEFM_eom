@@ -1,0 +1,25 @@
+****************************************
+Minimizer is Minuit2 / Migrad
+Chi2                      =      5.45975
+NDf                       =           11
+Edm                       =  2.68138e-17
+NCalls                    =           92
+p0                        =  6.80771e-12   +/-   6.84098e-13 
+p1                        = -6.49853e-10   +/-   3.31346e-10 
+****************************************
+Minimizer is Minuit2 / Migrad
+Chi2                      =      9.30611
+NDf                       =           12
+Edm                       =  4.79437e-13
+NCalls                    =           51
+p0                        =  5.47802e-12   +/-   9.13027e-14 
+
+Results with intercept:
+e/m = 1.46892e+11 +- 1.4761e+10 C/Kg
+p(t)    = 0.0753078
+p(chi2) = 0.906877
+
+Results without intercept:
+e/m = 1.82548e+11 +- 3.04254e+09 C/Kg
+p(t)    = 0.0508916
+p(chi2) = 0.676586

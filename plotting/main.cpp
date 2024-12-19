@@ -8,6 +8,7 @@
 #include "TF1.h"
 #include "TLegend.h"
 #include "TAxis.h"
+#include "TMath.h"
 
 using namespace std;
 
@@ -78,7 +79,7 @@ int main(int argc, char **argv)
 	graph.Fit(&line_with_intercept);
 	graph.Fit(&line_without_intercept);
 
-	TCanvas canvas("linear regression");
+	TCanvas canvas("linear regression","linear regression", 1500,1200);
 	canvas.SetGrid();
 
 	graph.Draw("AP");
@@ -94,15 +95,30 @@ int main(int argc, char **argv)
 	legend.AddEntry(&line_without_intercept, "fit without q", "L");
 	legend.Draw();
 
+	double expValue = 1.758820e11;
+
 	double moe_q = line_with_intercept.GetParameter(0);
 	double moe_q_err = line_with_intercept.GetParError(0);
 	double moe_noq = line_without_intercept.GetParameter(0);
 	double moe_noq_err = line_without_intercept.GetParError(0);
 
-	cout << "Results with intercept:" << endl
-		 << "e/m = " << 1 / moe_q << " +- " << (1 / pow(moe_q, 2)) * moe_q_err << " C/Kg" << endl
+	double eom_q = 1 / moe_q;
+	double eom_q_err = (1 / pow(moe_q, 2)) * moe_q_err;
+	double t_q = abs(eom_q - expValue) / eom_q_err;
+
+	double eom_noq = 1 / moe_noq;
+	double eom_noq_err = (1 / pow(moe_noq, 2)) * moe_noq_err;
+	double t_noq = abs(eom_noq - expValue) / eom_noq_err;
+
+	cout << endl
+		 << "Results with intercept:" << endl
+		 << "e/m = " << eom_q << " +- " << eom_q_err << " C/Kg" << endl
+		 << "p(t)    = " << 2 * TMath::StudentI(-t_q, graph.GetN() - 2) << endl
+		 << "p(chi2) = " << line_with_intercept.GetProb() << endl << endl
 		 << "Results without intercept:" << endl
-		 << "e/m = " << 1 / moe_noq << " +- " << (1 / pow(moe_noq, 2)) * moe_noq_err << " C/Kg" << endl;
+		 << "e/m = " << eom_noq << " +- " << eom_noq_err << " C/Kg" << endl
+		 << "p(t)    = " << 2 * TMath::StudentI(-t_noq, graph.GetN() - 2) << endl
+		 << "p(chi2) = " << line_without_intercept.GetProb() << endl;
 
 	app.Run();
 }
