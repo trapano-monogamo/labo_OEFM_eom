@@ -51,11 +51,13 @@ vector<Measure> read_file(const char *filename)
 
 int main(int argc, char **argv)
 {
-	if (argc < 2)
+	if (argc < 3)
 	{
-		cerr << "Not enoug arguments. Usage: ./plot <lin_reg_data>.csv" << endl;
+		cerr << "Not enoug arguments. Usage: ./plot <lin_reg_data>.csv <graph title>" << endl;
 		return -1;
 	}
+
+	cout << argv[2] << endl;
 
 	char *filename = argv[1];
 	vector<Measure> data = read_file(filename);
@@ -76,23 +78,23 @@ int main(int argc, char **argv)
 
 	TF1 line_with_intercept("lin_reg", "[0] * x + [1]", data[0].x, data[data.size() - 1].x);
 	TF1 line_without_intercept("lin_reg", "[0] * x", data[0].x, data[data.size() - 1].x);
-	graph.Fit(&line_with_intercept);
 	graph.Fit(&line_without_intercept);
+	graph.Fit(&line_with_intercept, "+");
 
 	TCanvas canvas("linear regression","linear regression", 1500,1200);
 	canvas.SetGrid();
 
-	graph.Draw("AP");
-	graph.SetTitle("e/m linear regression");
-	graph.GetXaxis()->SetTitle("2#Delta V [V]");
+	graph.Draw("APsame");
+	graph.SetTitle(argv[2]);
+	graph.GetXaxis()->SetTitle("2#DeltaV [V]");
 	graph.GetXaxis()->CenterTitle(true);
 	graph.GetYaxis()->SetTitle("B^{2}R^{2} [T^{2}m^{2}]");
 	graph.GetYaxis()->CenterTitle(true);
 
 	TLegend legend(0.15, 0.7, 0.3, 0.85);
-	legend.AddEntry(&graph, "dati", "LE");
-	legend.AddEntry(&line_with_intercept, "fit with q", "L");
-	legend.AddEntry(&line_without_intercept, "fit without q", "L");
+	legend.AddEntry(&graph, "data", "LE");
+	legend.AddEntry(&line_with_intercept, "fit: mx", "L");
+	legend.AddEntry(&line_without_intercept, "fit: mx+q", "L");
 	legend.Draw();
 
 	double expValue = 1.758820e11;

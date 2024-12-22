@@ -1,0 +1,131 @@
+
+[*] Processing ./data/cm_terrestre.csv
+
+Results:
+4.9479462e-5 +- 2.6750954e-6 T
+4.9304876e-5 +- 2.2389327e-6 T
+5.010083e-5 +- 2.0054972e-6 T
+5.0475875e-5 +- 1.8562126e-6 T
+5.1634983e-5 +- 1.8070087e-6 T
+5.033486e-5 +- 1.7315176e-6 T
+5.023913e-5 +- 1.7534679e-6 T
+5.0895123e-5 +- 1.8623349e-6 T
+4.9849685e-5 +- 1.982183e-6 T
+5.0831408e-5 +- 2.2904792e-6 T
+4.655556e-5 +- 2.507667e-6 T
+4.8431943e-5 +- 3.3640954e-6 T
+5.0819406e-5 +- 5.174383e-6 T
+4.0999057e-5 +- 8.237907e-6 T
+4.9761882e-5 +- 2.6903642e-6 T
+4.9738646e-5 +- 2.2586298e-6 T
+5.100031e-5 +- 2.041502e-6 T
+5.4417596e-5 +- 2.0011616e-6 T
+5.2200376e-5 +- 1.8267941e-6 T
+5.26221e-5 +- 1.8101923e-6 T
+5.1467654e-5 +- 1.7963417e-6 T
+5.2957534e-5 +- 1.937791e-6 T
+5.1129933e-5 +- 2.0330806e-6 T
+5.2694675e-5 +- 2.3744221e-6 T
+5.1111707e-5 +- 2.7530155e-6 T
+5.2996795e-5 +- 3.6810875e-6 T
+5.2496616e-5 +- 5.3451113e-6 T
+6.183464e-5 +- 1.2422938e-5 T
+
+Final Measure:
+5.098714e-5 +- 4.245743e-7 T
+
+Margins of error for confidence level of 95.0%:
+tc = 0.12658463: (5.0933395e-5, 5.1040883e-5)
+
+[*] Processing ./data/cm_ortogonale.csv
+
+Results:
+1.8243181e11 +- 1.879733e10 C/Kg
+1.7018348e11 +- 1.7653668e10 C/Kg
+1.8342466e11 +- 2.0163883e10 C/Kg
+1.8608973e11 +- 2.0420624e10 C/Kg
+1.8813934e11 +- 2.0245072e10 C/Kg
+1.9837708e11 +- 1.9842396e10 C/Kg
+1.9287899e11 +- 2.4335018e10 C/Kg
+1.9081608e11 +- 2.0975e10 C/Kg
+1.8273521e11 +- 2.0495055e10 C/Kg
+1.7037317e11 +- 2.003422e10 C/Kg
+1.6892302e11 +- 1.9901903e10 C/Kg
+1.7614976e11 +- 2.0956733e10 C/Kg
+1.7201322e11 +- 2.0109287e10 C/Kg
+
+Final Measure:
+1.8116683e11 +- 5.591526e9 C/Kg
+
+Statistical Significance at 1.0% for expected value of 1.75882e11:
+t0:  P(-inf <= -0.94515157) = 18.161212262741756%
+t_c: P(-inf <= -2.680998) = 0.9999998265652599%
+
+[*] Processing ./data/cm_parallelo.csv
+
+Results:
+1.9745142e11 +- 2.2602131e10 C/Kg
+1.945579e11 +- 2.2483595e10 C/Kg
+1.9210717e11 +- 2.2200685e10 C/Kg
+1.8256983e11 +- 2.171936e10 C/Kg
+1.9015287e11 +- 2.3121281e10 C/Kg
+1.8564558e11 +- 2.2438461e10 C/Kg
+2.0343133e11 +- 2.2691609e10 C/Kg
+1.9944363e11 +- 2.3318313e10 C/Kg
+1.9018049e11 +- 2.136742e10 C/Kg
+1.832834e11 +- 2.1060663e10 C/Kg
+1.9153447e11 +- 2.1481e10 C/Kg
+1.812042e11 +- 2.1224161e10 C/Kg
+1.9117672e11 +- 2.243593e10 C/Kg
+
+Final Measure:
+1.9070106e11 +- 6.1382175e9 C/Kg
+
+Statistical Significance at 1.0% for expected value of 1.75882e11:
+t0:  P(-inf <= -2.4142296) = 1.6329843528915648%
+t_c: P(-inf <= -2.680998) = 0.9999998265652599%
+
+[*] Processing ./data/cm_antiparallelo.csv
+
+Results:
+2.0192418e11 +- 2.2993928e10 C/Kg
+1.9965308e11 +- 2.3303582e10 C/Kg
+2.0205132e11 +- 2.3316476e10 C/Kg
+1.8888217e11 +- 2.0768573e10 C/Kg
+1.9785155e11 +- 2.2570242e10 C/Kg
+2.0022174e11 +- 2.3686676e10 C/Kg
+1.9908793e11 +- 2.383014e10 C/Kg
+1.9572492e11 +- 2.3850392e10 C/Kg
+1.921322e11 +- 2.2684013e10 C/Kg
+1.9137289e11 +- 2.2463658e10 C/Kg
+2.0613266e11 +- 2.2875589e10 C/Kg
+2.0275921e11 +- 2.4034953e10 C/Kg
+1.9660695e11 +- 2.1934526e10 C/Kg
+
+Final Measure:
+1.9778678e11 +- 6.3499474e9 C/Kg
+
+Statistical Significance at 1.0% for expected value of 1.75882e11:
+t0:  P(-inf <= -3.4496012) = 0.24042595233418293%
+t_c: P(-inf <= -2.680998) = 0.9999998265652599%
+
+[*] testing ./plotting/ortho_reg_weighted_avg.csv
+
+Linear regression for ./plotting/ortho_reg_weighted_avg.csv
+e/m = 1.4689255e11 +- 1.4760982e10
+Statistical Significance at 5.0% for expected value of 1.75882e11:
+t0:  P(-inf <= -1.9639236) = 3.6564926741970947%
+
+[*] testing ./plotting/parallel_reg_weighted_avg.csv
+
+Linear regression for ./plotting/parallel_reg_weighted_avg.csv
+e/m = 1.8016095e11 +- 2.4712536e10
+Statistical Significance at 5.0% for expected value of 1.75882e11:
+t0:  P(-inf <= -0.17314938) = 43.27101588924941%
+
+[*] testing ./plotting/antiparallel_reg_weighted_avg.csv
+
+Linear regression for ./plotting/antiparallel_reg_weighted_avg.csv
+e/m = 1.7687603e11 +- 2.2278672e10
+Statistical Significance at 5.0% for expected value of 1.75882e11:
+t0:  P(-inf <= -4.4618174e-2) = 48.25727696307473%

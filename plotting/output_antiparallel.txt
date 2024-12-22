@@ -1,3 +1,11 @@
+antiparallel
+****************************************
+Minimizer is Minuit2 / Migrad
+Chi2                      =      2.63963
+NDf                       =           12
+Edm                       =  5.65668e-14
+NCalls                    =           51
+p0                        =   4.7307e-12   +/-   8.22e-14    
 ****************************************
 Minimizer is Minuit2 / Migrad
 Chi2                      =      1.27917
@@ -6,13 +14,6 @@ Edm                       =  1.90702e-10
 NCalls                    =           86
 p0                        =  5.50631e-12   +/-   6.69996e-13 
 p1                        = -3.65517e-10   +/-   3.13361e-10 
-****************************************
-Minimizer is Minuit2 / Migrad
-Chi2                      =      2.63963
-NDf                       =           12
-Edm                       =  5.65668e-14
-NCalls                    =           51
-p0                        =   4.7307e-12   +/-   8.22e-14    
 
 Results with intercept:
 e/m = 1.8161e+11 +- 2.20979e+10 C/Kg

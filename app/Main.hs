@@ -27,6 +27,12 @@ stdAverage l = ( avg, sqrt $ var / (fromIntegral $ length xs) )
         avg = (sum xs) / (fromIntegral $ length xs)
         var = (sum $ map (\x -> (x - avg)**2) xs) / ((fromIntegral $ length xs) - 1)
 
+semiDispMax :: [(Float,Float)] -> (Float,Float)
+semiDispMax l = ( avg, err )
+  where (xs,_) = unzip l
+        avg = (sum xs) / (fromIntegral $ length xs)
+        err = (abs $ (foldl max 0 xs) - (foldl min (xs !! 0) xs)) / 2.0
+
 
 
 singleTailCriticalTValue :: Float -> Int -> Float
@@ -205,9 +211,11 @@ performTest filename regData ty ttest = do
 main :: IO ()
 main = do
   (field,fieldError,_)   <- processFile "./data/cm_terrestre.csv"     (simpleParser) (earthMagneticField) (earthMagneticFieldError)      (weightedAverage) "T"    (1) (ConfidenceInterval 0.95)
-  (_,_,orthogonalData)   <- processFile "./data/cm_ortogonale.csv"    (simpleParser) (eom      0.0)       (eomError      0.0        0.0) (weightedAverage)      "C/Kg" (1) (SignificanceTest 1.758820e11 0.01)
-  (_,_,parallelData)     <- processFile "./data/cm_parallelo.csv"     (simpleParser) (eom    field)       (eomError    field fieldError) (weightedAverage)      "C/Kg" (1) (SignificanceTest 1.758820e11 0.01)
-  (_,_,antiParallelData) <- processFile "./data/cm_antiparallelo.csv" (simpleParser) (eom (-field))       (eomError (-field) fieldError) (weightedAverage)      "C/Kg" (1) (SignificanceTest 1.758820e11 0.01)
+  -- let field = 2.124e-5
+  --     fieldError = 0.019e-5
+  (_,_,orthogonalData)   <- processFile "./data/cm_ortogonale.csv"    (simpleParser) (eom      0.0)       (eomError      0.0        0.0) (weightedAverage) "C/Kg" (1) (SignificanceTest 1.758820e11 0.01)
+  (_,_,parallelData)     <- processFile "./data/cm_parallelo.csv"     (simpleParser) (eom    field)       (eomError    field fieldError) (weightedAverage) "C/Kg" (1) (SignificanceTest 1.758820e11 0.01)
+  (_,_,antiParallelData) <- processFile "./data/cm_antiparallelo.csv" (simpleParser) (eom (-field))       (eomError (-field) fieldError) (weightedAverage) "C/Kg" (1) (SignificanceTest 1.758820e11 0.01)
 
   performTest "./plotting/ortho_reg_weighted_avg.csv"        (eomRegressionPoints      0.0        0.0   orthogonalData) (WithIntercept) (SignificanceTest 1.758820e11 0.05)
   performTest "./plotting/parallel_reg_weighted_avg.csv"     (eomRegressionPoints    field fieldError     parallelData) (WithIntercept) (SignificanceTest 1.758820e11 0.05)
