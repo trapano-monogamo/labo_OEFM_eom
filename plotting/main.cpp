@@ -79,10 +79,13 @@ int main(int argc, char **argv)
 	TF1 line_with_intercept("lin_reg", "[0] * x + [1]", data[0].x, data[data.size() - 1].x);
 	TF1 line_without_intercept("lin_reg", "[0] * x", data[0].x, data[data.size() - 1].x);
 	graph.Fit(&line_without_intercept);
-	graph.Fit(&line_with_intercept, "+");
+	graph.Fit(&line_with_intercept /*, "+"*/);
 
 	TCanvas canvas("linear regression","linear regression", 1500,1200);
 	canvas.SetGrid();
+
+	graph.SetMarkerStyle(20);
+	graph.SetMarkerSize(1.5);
 
 	graph.Draw("APsame");
 	graph.SetTitle(argv[2]);
@@ -93,8 +96,8 @@ int main(int argc, char **argv)
 
 	TLegend legend(0.15, 0.7, 0.3, 0.85);
 	legend.AddEntry(&graph, "data", "LE");
-	legend.AddEntry(&line_with_intercept, "fit: mx", "L");
-	legend.AddEntry(&line_without_intercept, "fit: mx+q", "L");
+	legend.AddEntry(&line_with_intercept, "fit: mx+q", "L");
+	// legend.AddEntry(&line_without_intercept, "fit: mx", "L");
 	legend.Draw();
 
 	double expValue = 1.758820e11;
