@@ -33,4 +33,4 @@ i0 = 100 :: Float -- mA
 compassCurrentError = 0.01 :: Float -- mA
 compassCoilsNumber = 240 :: Int
 
-angleError = 1 :: Float -- rad
+angleError = 1 :: Float -- deg
